@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>陳跟洋ㄉ待辦清單</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>待辦清單</h1>
+    <form id="todo-form" autocomplete="off">
+      <input type="text" id="new-todo" placeholder="新增待辦..." />
+      <button class="add-btn" type="submit">新增</button>
+    </form>
+    <ul id="todo-list"></ul>
+    <div class="deco-container">
+      <img src="./image/f2@3x.png" class="deco-items" id="white-flower">
+      <!-- <img src="./image/f3@3x.png" class="deco-items" id="blue-flower"> -->
+    </div>
+  </div>
+  <div id="loader">
+      <span class="loader-icon"></span>
+      <span style="margin-left:8px;">處理中...</span>
+    </div>
+  <script>
+
+  /* Google Apps Script URL **/
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxHnwZU8Cc2sZ-TBgIMDuwNutLv24GNnsJCJOz1IIfgALghjyXnGzRkC_o2RU-Q5nxA/exec';
+
+  /* 抓DOM節點 **/
+  const form = document.getElementById('todo-form');
+  const input = document.getElementById('new-todo');
+  const list = document.getElementById('todo-list');
+  const loader = document.getElementById('loader');
+
+  /* 存放todo in local (為了變更狀態先顯示UI) **/
+  let todos = [];
+
+  /* 顯示與關閉loader **/
+  function showLoader() {
+    loader.style.display = 'block';
+    input.disabled = true;
+    Array.from(document.querySelectorAll('.del-btn')).forEach(btn => btn.disabled = true);
+  }
+  function hideLoader() {
+    loader.style.display = 'none';
+    input.disabled = false;
+    Array.from(document.querySelectorAll('.del-btn')).forEach(btn => btn.disabled = false);
+  }
+
+  /* 載入todo資料 **/
+  function loadTodos() {
+    showLoader();
+    fetch(`${GAS_URL}?action=list`)
+      .then(res => res.json())
+      .then(data => {
+        todos = data;
+        renderList();
+      })
+      .catch(() => alert('無法載入資料，請檢查網路或 GAS 設定。'))
+      .finally(hideLoader);
+  }
+
+  /* 渲染UI **/
+  function renderList() {
+    list.innerHTML = '';
+    todos.forEach((todo, idx) => {
+    // 是否完成
+      const li = document.createElement('li');
+      if (todo.checked === true || todo.checked === 'true') li.classList.add('checked');
+    // todo內容
+      const span = document.createElement('span');
+      span.textContent = todo.content;
+    // 刪除鍵
+      const del = document.createElement('button');
+      del.className = 'del-btn';
+        // 垃圾桶icon
+      del.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+      </svg>
+    `;
+      del.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteTodo(todo.id);
+      });
+
+      li.addEventListener('click', () => toggleTodoUI(idx));
+
+      li.appendChild(span);
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+  }
+
+  /* 新增項目 **/
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const content = input.value.trim();
+    if (!content) return;
+
+    // 先在前端建立暫時 ID 與項目
+    const tempId = 'temp-' + Date.now();
+    const newTodo = { id: tempId, content, checked: false };
+    todos.push(newTodo);
+    renderList();
+
+    // 清空輸入框，讓使用者繼續輸入
+    input.value = '';
+
+    // 然後再跑 API
+    fetch(`${GAS_URL}?action=add&content=${encodeURIComponent(content)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.id) {
+          // 用 API 回傳的 id 替換暫時 ID
+          const idx = todos.findIndex(t => t.id === tempId);
+          if (idx !== -1) {
+            todos[idx].id = data.id;
+          }
+        } else {
+          throw new Error('API 未回傳 ID');
+        }
+      })
+      .catch(() => {
+        // 新增失敗就把暫時項目移除
+        todos = todos.filter(t => t.id !== tempId);
+        alert('新增失敗');
+      })
+      .finally(() => renderList());
+  });
+
+
+  /* 切換(完成/未完成)狀態，先顯示UI再call api**/
+  function toggleTodoUI(idx) {
+    const todo = todos[idx];
+    const oldChecked = todo.checked === true || todo.checked === 'true';
+    todo.checked = !oldChecked;
+    renderList(); // 立即切換UI
+
+    fetch(`${GAS_URL}?action=update&id=${todo.id}&checked=${todo.checked}`)
+      .then(res => res.json())
+      .then(ret => {
+        if (ret.status !== "success") throw new Error('API failed');
+      })
+      .catch(() => {
+        todo.checked = oldChecked;
+        renderList();
+        alert('狀態同步失敗，已還原。');
+      });
+  }
+
+  /* 刪除項目 **/
+  function deleteTodo(id) {
+    if (!confirm('確定要刪除這個待辦事項嗎？')) return;
+
+    // 找出項目並先從 UI 中移除
+    const idx = todos.findIndex(t => t.id === id);
+    if (idx === -1) return;
+    const deletedTodo = todos[idx];
+    todos.splice(idx, 1);
+    renderList();
+
+    // 再送 API 刪除
+    fetch(`${GAS_URL}?action=delete&id=${id}`)
+      .then(res => res.json())
+      .then(ret => {
+        if (ret.status !== 'success') throw new Error('API failed');
+      })
+      .catch(() => {
+        // 如果失敗，重新加回 UI
+        todos.splice(idx, 0, deletedTodo);
+        renderList();
+        alert('刪除失敗，已還原。');
+      });
+  }
+
+
+  /* 初次進入page自動撈資料 **/
+  loadTodos();
+
+  </script>
+</body>
+</html>
