@@ -1,0 +1,191 @@
+@font-face {
+    font-family: 'SweiHalfMoonCJKtc-Medium';
+    src: url(./fonts/SweiHalfMoonCJKtc-Medium.ttf);
+}
+
+@font-face {
+    font-family: 'SweiHalfMoonCJKtc-Bold';
+    src: url(./fonts/SweiHalfMoonCJKtc-Bold.ttf);
+}
+
+body {
+  font-family: 'SweiHalfMoonCJKtc-Medium', Arial, sans-serif;
+  max-width: 400px;
+  height: 100vh;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 8px;
+  background: linear-gradient(110deg, #FFD954 52%, #E4B660 52%);
+  background-repeat: no-repeat;
+}
+
+.container {
+  padding: 1.5em .8em 2em .8em;
+  margin: 18px 0 0 0;
+  animation: content-anim 1500ms 500ms 1 forwards;
+}
+
+h1 {
+  text-align: center;
+  letter-spacing: .1em;
+  color: #69491A;
+  font-size: 1.6em;
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  margin-bottom: 1em;
+  gap: 4px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: .68em;
+  font-size: 1.05em;
+  border: 1px solid #ccd;
+  border-radius: 5px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+button {
+  border: none;
+  color: #fff;
+  font-size: 1em;
+  padding: .53em 1.1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.add-btn {
+  background: #60491A;
+}
+
+.del-btn {
+  background: transparent;
+  color: #69491A;
+  margin-left: .8em;
+  font-size: .99em;
+  padding: .38em 1em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-top: .2em;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  font-size: 1.08em;
+  position: relative;
+}
+
+li.checked span {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+li span {
+  flex: 1;
+  margin-left: .6em;
+  user-select: none;
+}
+
+#loader {
+  display: none;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.03em;
+}
+
+.loader-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #4a82fa;
+  border-radius: 50%;
+  animation: spin .85s linear infinite;
+  vertical-align: middle;
+}
+
+/* #blue-flower {
+  position: fixed;
+  top: 3%;
+  right: 2%;
+  height: 6%;
+  animation: blue-flower-anim 3s 3000ms infinite alternate linear;
+}
+
+#white-flower {
+  position: fixed;
+  bottom: 7%;
+  left: 5%;
+  height: 15%;
+  animation: white-flower-anim 1500ms 3000ms infinite alternate linear;
+} */
+
+#white-flower{
+  position: fixed;
+  top: 3%;
+  right: 2%;
+  height: 8%;
+  animation: blue-flower-anim 3s 3000ms infinite alternate linear;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes content-anim {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 手機斷點，可略微調整大小 */
+@media (max-width: 340px) {
+  body { max-width: 98vw; }
+  h1 { font-size: 1.15em; }
+}
+
+@keyframes blue-flower-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes white-flower-anim {
+  0% {
+    bottom: 7%
+  }
+
+  100% {
+    bottom: 9%
+  }
+}
+
+
+input:disabled, button:disabled, .del-btn:disabled {
+  opacity: .55;
+  pointer-events: none;
+}
+
+::-webkit-input-placeholder { color: #aaa; }
+::-moz-placeholder { color: #aaa; }
+::-ms-input-placeholder { color: #aaa; }
+::placeholder { color: #aaa; }
