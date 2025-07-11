@@ -95,6 +95,12 @@ li span {
   flex: 1;
   margin-left: .6em;
   user-select: none;
+  max-width: 78%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* white-space: normal;
+  overflow-wrap: break-word; */
 }
 
 #loader {
@@ -131,11 +137,11 @@ li span {
   animation: white-flower-anim 1500ms 3000ms infinite alternate linear;
 } */
 
-#white-flower{
+#orange-flower{
   position: fixed;
   top: 3%;
-  right: 2%;
-  height: 8%;
+  right: 4%;
+  height: 6%;
   animation: blue-flower-anim 3s 3000ms infinite alternate linear;
 }
 
