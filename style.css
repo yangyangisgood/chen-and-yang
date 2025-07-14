@@ -10,18 +10,24 @@
 
 body {
   font-family: 'SweiHalfMoonCJKtc-Medium', Arial, sans-serif;
-  max-width: 400px;
+  overflow: hidden;
+  margin: 0;
   height: 100vh;
-  margin: 0 auto;
   box-sizing: border-box;
   padding: 0 8px;
   background: linear-gradient(110deg, #FFD954 52%, #E4B660 52%);
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 400px;
   padding: 1.5em .8em 2em .8em;
-  margin: 18px 0 0 0;
+  margin: 0 auto;
   animation: content-anim 1500ms 500ms 1 forwards;
 }
 
@@ -30,7 +36,7 @@ h1 {
   letter-spacing: .1em;
   color: #69491A;
   font-size: 1.6em;
-  margin-top: 0;
+  margin-top: 0.6em;
 }
 
 form {
@@ -72,9 +78,11 @@ button {
 }
 
 ul {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 8px;
+  padding: 0 0 2em 1em;
   list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 li {
