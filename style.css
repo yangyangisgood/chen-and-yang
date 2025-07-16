@@ -81,7 +81,7 @@ ul {
   flex: 1;
   overflow-y: auto;
   margin-top: 8px;
-  padding: 0 0 2em 1em;
+  padding: 0 0 4em 1em;
   list-style: none;
 }
 
@@ -112,10 +112,15 @@ li span {
 }
 
 #loader {
+position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: none;
-  text-align: center;
-  margin-bottom: 10px;
+  padding: 1em 2em;
+  z-index: 9999;
   font-size: 1.03em;
+  text-align: center;
 }
 
 .loader-icon {
@@ -123,7 +128,7 @@ li span {
   width: 20px;
   height: 20px;
   border: 3px solid #e0e0e0;
-  border-top: 3px solid #4a82fa;
+  border-top: 3px solid #69491A;
   border-radius: 50%;
   animation: spin .85s linear infinite;
   vertical-align: middle;
@@ -152,6 +157,39 @@ li span {
   height: 6%;
   animation: blue-flower-anim 3s 3000ms infinite alternate linear;
 }
+
+#progress-bar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0.8em 1em;
+  background: #f3e6bd;
+  font-size: 0.9em;
+  color: #69491A;
+  z-index: 10;
+}
+
+#progress-label {
+  margin-bottom: 0.2em;
+}
+
+#progress-bar {
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: #69491A;
+  transition: width 0.3s ease;
+}
+
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
