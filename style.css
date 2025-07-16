@@ -270,7 +270,7 @@ li span {
   }
 
   100% {
-    transform: translate(-50%, -50%) scale(10);
+    transform: translate(-50%, -50%) scale(12);
     opacity: 0;
   }
 }
