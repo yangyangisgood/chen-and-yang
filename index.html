@@ -8,12 +8,27 @@
 </head>
 <body>
   <div class="container">
+    <!-- title -->
     <h1>待辦清單</h1>
+
+    <!-- 新增項目 form -->
     <form id="todo-form" autocomplete="off">
       <input type="text" id="new-todo" placeholder="新增待辦..." />
       <button class="add-btn" type="submit">新增</button>
     </form>
+
+    <!-- 待辦事項 todo list -->
     <ul id="todo-list"></ul>
+
+    <!-- 進度條 progress bar -->
+    <div id="progress-bar-container">
+      <div id="progress-label">已完成 0 / 0（0%）</div>
+      <div id="progress-bar">
+        <div id="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- 花花裝飾 deco-flower -->
     <div class="deco-container">
       <a href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing" target="_blank">
         <img src="./image/f1@3x.png" class="deco-items" id="orange-flower">
@@ -22,10 +37,12 @@
       <!-- <img src="./image/f3@3x.png" class="deco-items" id="blue-flower"> -->
     </div>
   </div>
+
+  <!-- 載入 loader -->
   <div id="loader">
-      <span class="loader-icon"></span>
-      <span style="margin-left:8px;">處理中...</span>
-    </div>
+    <span class="loader-icon"></span>
+    <span style="margin-left:8px;">載入中...</span>
+  </div>
   <script>
 
   /* Google Apps Script URL **/
@@ -96,6 +113,8 @@
       li.appendChild(del);
       list.appendChild(li);
     });
+
+    updateProgress()
   }
 
   /* 新增項目 **/
@@ -180,6 +199,18 @@
       });
   }
 
+  /* 更新進度條 **/
+  function updateProgress() {
+    const total = todos.length;
+    const done = todos.filter(t => t.checked === true || t.checked === 'true').length;
+    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+    const label = document.getElementById('progress-label');
+    const fill = document.getElementById('progress-bar-fill');
+
+    label.textContent = `已完成 ${done} / ${total}（${percent}%）`;
+    fill.style.width = `${percent}%`;
+  }
 
   /* 初次進入page自動撈資料 **/
   loadTodos();
