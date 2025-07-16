@@ -1,11 +1,11 @@
 @font-face {
-    font-family: 'SweiHalfMoonCJKtc-Medium';
-    src: url(./fonts/SweiHalfMoonCJKtc-Medium.ttf);
+  font-family: 'SweiHalfMoonCJKtc-Medium';
+  src: url(./fonts/SweiHalfMoonCJKtc-Medium.ttf);
 }
 
 @font-face {
-    font-family: 'SweiHalfMoonCJKtc-Bold';
-    src: url(./fonts/SweiHalfMoonCJKtc-Bold.ttf);
+  font-family: 'SweiHalfMoonCJKtc-Bold';
+  src: url(./fonts/SweiHalfMoonCJKtc-Bold.ttf);
 }
 
 body {
@@ -112,7 +112,7 @@ li span {
 }
 
 #loader {
-position: fixed;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -150,7 +150,7 @@ position: fixed;
   animation: white-flower-anim 1500ms 3000ms infinite alternate linear;
 } */
 
-#orange-flower{
+#orange-flower {
   position: fixed;
   top: 3%;
   right: 4%;
@@ -203,7 +203,7 @@ position: fixed;
 .heart-icon {
   width: 80px;
   height: 80px;
-  fill: #FF69B4;
+  fill: #f39083;
 }
 
 #heart-burst.animate {
@@ -212,7 +212,9 @@ position: fixed;
 
 
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes content-anim {
@@ -227,8 +229,13 @@ position: fixed;
 
 /* 手機斷點，可略微調整大小 */
 @media (max-width: 340px) {
-  body { max-width: 98vw; }
-  h1 { font-size: 1.15em; }
+  body {
+    max-width: 98vw;
+  }
+
+  h1 {
+    font-size: 1.15em;
+  }
 }
 
 @keyframes blue-flower-anim {
@@ -256,23 +263,38 @@ position: fixed;
     transform: translate(-50%, -50%) scale(0);
     opacity: 1;
   }
+
   50% {
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%) scale(4);
     opacity: 1;
   }
+
   100% {
-    transform: translate(-50%, -50%) scale(4);
+    transform: translate(-50%, -50%) scale(12);
     opacity: 0;
   }
 }
 
 
-input:disabled, button:disabled, .del-btn:disabled {
+input:disabled,
+button:disabled,
+.del-btn:disabled {
   opacity: .55;
   pointer-events: none;
 }
 
-::-webkit-input-placeholder { color: #aaa; }
-::-moz-placeholder { color: #aaa; }
-::-ms-input-placeholder { color: #aaa; }
-::placeholder { color: #aaa; }
+::-webkit-input-placeholder {
+  color: #aaa;
+}
+
+::-moz-placeholder {
+  color: #aaa;
+}
+
+::-ms-input-placeholder {
+  color: #aaa;
+}
+
+::placeholder {
+  color: #aaa;
+}
