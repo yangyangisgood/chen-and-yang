@@ -81,7 +81,7 @@ ul {
   flex: 1;
   overflow-y: auto;
   margin-top: 8px;
-  padding: 0 0 2em 1em;
+  padding: 0 0 4em 1em;
   list-style: none;
 }
 
@@ -152,6 +152,39 @@ li span {
   height: 6%;
   animation: blue-flower-anim 3s 3000ms infinite alternate linear;
 }
+
+#progress-bar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0.8em 1em;
+  background: #f3e6bd;
+  font-size: 0.9em;
+  color: #69491A;
+  z-index: 10;
+}
+
+#progress-label {
+  margin-bottom: 0.2em;
+}
+
+#progress-bar {
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: #69491A;
+  transition: width 0.3s ease;
+}
+
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
