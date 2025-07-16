@@ -190,6 +190,26 @@ position: fixed;
   transition: width 0.3s ease;
 }
 
+#heart-burst {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.heart-icon {
+  width: 80px;
+  height: 80px;
+  fill: #FF69B4;
+}
+
+#heart-burst.animate {
+  animation: heart-pop 1.2s ease-out forwards;
+}
+
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
@@ -228,6 +248,21 @@ position: fixed;
 
   100% {
     bottom: 9%
+  }
+}
+
+@keyframes heart-pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
   }
 }
 
