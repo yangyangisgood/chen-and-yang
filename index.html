@@ -31,13 +31,24 @@
     </div>
 
     <!-- 花花裝飾 deco-flower -->
-    <div class="deco-container">
+    <!-- <div class="deco-container">
       <a href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing"
         target="_blank">
         <img src="./image/f1@3x.png" class="deco-items" id="orange-flower">
       </a>
-      <!-- <img src="./image/f2@3x.png" class="deco-items" id="white-flower"> -->
-      <!-- <img src="./image/f3@3x.png" class="deco-items" id="blue-flower"> -->
+    </div> -->
+
+    <div id="days-counter">
+      <a href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing"
+        target="_blank">
+
+        <svg xmlns="http://www.w3.org/2000/svg"  class="calendar-icon" viewBox="0 0 16 16" >
+            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
+        </svg>
+        <span class="calendar-text">
+          <span id="days-count">D+0</span>
+        </span>
+      </a>
     </div>
   </div>
 
@@ -240,9 +251,25 @@
       heart.classList.add('animate');
     }
 
+    /* 日期計算機 **/
+    function updateDaysCounter() {
+      const startDate = new Date('2025-07-15');
+      const today = new Date();
 
-    /* 初次進入page自動撈資料 **/
+      // 把時間都歸零，避免時差影響
+      startDate.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+
+      const diffTime = today - startDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+      const counter = document.getElementById('days-count');
+      counter.textContent = `D+${diffDays}`;
+    }
+
+    /* 初次進入page自動撈資料與更新日期 **/
     loadTodos();
+    updateDaysCounter();
 
   </script>
 </body>
