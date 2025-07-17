@@ -314,3 +314,11 @@ body.pink-mode .add-btn {
 body.pink-mode #progress-bar-container {
   background-color: #faecea;
 }
+
+body.pink-mode .calendar-icon {
+  fill: #faecea;
+}
+
+body.pink-mode #days-count {
+  color: #faecea;
+}
