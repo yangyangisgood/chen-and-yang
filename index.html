@@ -11,7 +11,12 @@
 <body>
   <div class="container">
     <!-- title -->
-    <h1>待辦清單</h1>
+    <h1>
+      <a href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing"
+        target="_blank">
+        待辦清單
+      </a>
+    </h1>
 
     <!-- 新增項目 form -->
     <form id="todo-form" autocomplete="off">
@@ -31,24 +36,18 @@
     </div>
 
     <!-- 花花裝飾 deco-flower -->
-    <!-- <div class="deco-container">
-      <a href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing"
-        target="_blank">
-        <img src="./image/f1@3x.png" class="deco-items" id="orange-flower">
-      </a>
-    </div> -->
+    <div class="deco-container">
+        <img src="./image/f-orange.png" class="deco-items" id="orange-flower">
+        <img src="./image/f-pink.png" class="deco-items" id="pink-flower">
+    </div>
 
     <div id="days-counter">
-      <a href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing"
-        target="_blank">
-
         <svg xmlns="http://www.w3.org/2000/svg"  class="calendar-icon" viewBox="0 0 16 16" >
             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
         </svg>
         <span class="calendar-text">
           <span id="days-count">D+0</span>
         </span>
-      </a>
     </div>
   </div>
 
