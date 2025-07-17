@@ -86,7 +86,7 @@ ul {
   flex: 1;
   overflow-y: auto;
   margin-top: 8px;
-  padding: 0 0 4em 1em;
+  padding: 0 0 6em 1em;
   list-style: none;
 }
 
@@ -145,7 +145,8 @@ li span {
   top: 3%;
   left: 5%;
   height: 6%;
-  animation: flower-anim 3s 3000ms infinite alternate linear;
+  transform: rotate(-5deg);
+  animation: orange-flower-anim 3s 3000ms infinite alternate linear;
 }
 
 #pink-flower {
@@ -154,7 +155,8 @@ li span {
   top: 3%;
   left: 5%;
   height: 6%;
-  animation: flower-anim 3s 3000ms infinite alternate linear;
+  transform: rotate(-23deg);
+  animation: pink-flower-anim 3s 3000ms infinite alternate linear;
 }
 
 #days-counter {
@@ -177,6 +179,7 @@ li span {
   font-size: 0.72em;
   color: #f3e6bd;
   pointer-events: none;
+  font-family: 'SweiHalfMoonCJKtc-bold', Arial, sans-serif;
 }
 
 
@@ -260,12 +263,21 @@ li span {
   }
 }
 
-@keyframes flower-anim {
+@keyframes orange-flower-anim {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(-5deg);
   }
   100% {
     transform: rotate(20deg);
+  }
+}
+
+@keyframes pink-flower-anim {
+  0% {
+    transform: rotate(-23deg);
+  }
+  100% {
+    transform: rotate(2deg);
   }
 }
 
@@ -323,6 +335,7 @@ body.pink-mode h1 {
 
 body.pink-mode .add-btn {
   background-color: #f39083;
+  border: 2px solid #faecea
 }
 
 body.pink-mode #progress-bar-container {
