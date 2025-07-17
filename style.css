@@ -134,29 +134,36 @@ li span {
   vertical-align: middle;
 }
 
-/* #blue-flower {
-  position: fixed;
-  top: 3%;
-  right: 2%;
-  height: 6%;
-  animation: blue-flower-anim 3s 3000ms infinite alternate linear;
-}
-
-#white-flower {
-  position: fixed;
-  bottom: 7%;
-  left: 5%;
-  height: 15%;
-  animation: white-flower-anim 1500ms 3000ms infinite alternate linear;
-} */
-
-#orange-flower {
+/* #orange-flower {
   position: fixed;
   top: 3%;
   right: 4%;
   height: 6%;
-  animation: blue-flower-anim 3s 3000ms infinite alternate linear;
+  animation: flower-anim 3s 3000ms infinite alternate linear;
+} */
+
+#days-counter {
+  position: fixed;
+  top: 4%;
+  right: 6%;
 }
+
+.calendar-icon {
+  height: 2.2em;
+  transform: scaleX(1.5);
+  fill: #f3e6bd;
+}
+
+#days-count {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  font-size: 0.72em;
+  color: #f3e6bd;
+  pointer-events: none;
+}
+
 
 #progress-bar-container {
   position: fixed;
@@ -238,23 +245,13 @@ li span {
   }
 }
 
-@keyframes blue-flower-anim {
+@keyframes flower-anim {
   0% {
     transform: rotate(0deg);
   }
 
   100% {
     transform: rotate(30deg);
-  }
-}
-
-@keyframes white-flower-anim {
-  0% {
-    bottom: 7%
-  }
-
-  100% {
-    bottom: 9%
   }
 }
 
