@@ -236,10 +236,12 @@
       fill.style.width = `${percent}%`;
 
       if (percent === 100) {
-        fill.style.backgroundColor = '#f39083'; // 💗 粉紅色
         triggerHeartBurst(); // 顯示愛心
+        fill.style.backgroundColor = '#f39083'; // 💗 粉紅色
+        document.body.classList.add('pink-mode'); // pink-mode
       } else {
         fill.style.backgroundColor = '#69491A'; // 棕色（原色）
+        document.body.classList.remove('pink-mode'); // default-mode
       }
     }
 

@@ -295,3 +295,22 @@ button:disabled,
 ::placeholder {
   color: #aaa;
 }
+
+/* pink-mode */
+body.pink-mode {
+  background: linear-gradient(110deg, #ffd9dc 52%, #fbb4b8 52%);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+body.pink-mode h1 {
+  color: #f39083;
+}
+
+body.pink-mode .add-btn {
+  background-color: #f39083;
+}
+
+body.pink-mode #progress-bar-container {
+  background-color: #faecea;
+}
