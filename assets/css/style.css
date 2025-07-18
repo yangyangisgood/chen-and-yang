@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'SweiHalfMoonCJKtc-Medium';
+  src: url(/fonts/SweiHalfMoonCJKtc-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'SweiHalfMoonCJKtc-Bold';
+  src: url(/fonts/SweiHalfMoonCJKtc-Bold.ttf);
+}
+
+body {
+  font-family: 'SweiHalfMoonCJKtc-Medium', Arial, sans-serif;
+  overflow: hidden;
+  margin: 0;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
