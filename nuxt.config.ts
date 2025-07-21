@@ -2,7 +2,9 @@
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ['/assets/css/style.css'],
+  css: [
+    'element-plus/dist/index.css',
+    '/assets/css/style.css'],
   ssr: false,
   app: {
     baseURL: '/chen-and-yang/', // GitHub repo 名稱
