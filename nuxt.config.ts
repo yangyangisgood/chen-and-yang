@@ -1,10 +1,15 @@
+/// <reference types="nuxt" />
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   css: ['/assets/css/style.css'],
-  ssr: true,
-  target: 'static', // 靜態網站
+  ssr: false,
   app: {
-    baseURL: '/chen-and-yang/' // GitHub repo 名稱
+    baseURL: '/chen-and-yang/', // GitHub repo 名稱
+    buildAssetsDir: 'assets/'
+  },
+  nitro: {
+    preset: 'static',
   },
   spaLoadingTemplate: 'app/loading-template.html',
   compatibilityDate: '2025-07-15',

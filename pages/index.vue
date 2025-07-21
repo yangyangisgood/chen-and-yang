@@ -73,8 +73,8 @@
 
     <!-- deco -->
     <div class="deco-container">
-      <img src="./image/f-orange.png" class="deco-items" id="orange-flower" />
-      <img src="./image/f-pink.png" class="deco-items" id="pink-flower" />
+      <img src="/image/f-orange.png" class="deco-items" id="orange-flower" />
+      <img src="/image/f-pink.png" class="deco-items" id="pink-flower" />
     </div>
 
     <!-- 天數計數器 -->
@@ -221,21 +221,24 @@ function calcDays() {
   daysCount.value = Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
+console.log("script loaded");
+
 onMounted(() => {
   loadTodos();
   calcDays();
+  console.log("onMounted triggered");
 });
 </script>
 
 <style scoped>
 @font-face {
   font-family: "SweiHalfMoonCJKtc-Medium";
-  src: url(../fonts/SweiHalfMoonCJKtc-Medium.ttf);
+  src: url(/fonts/SweiHalfMoonCJKtc-Medium.ttf);
 }
 
 @font-face {
   font-family: "SweiHalfMoonCJKtc-Bold";
-  src: url(../fonts/SweiHalfMoonCJKtc-Bold.ttf);
+  src: url(/fonts/SweiHalfMoonCJKtc-Bold.ttf);
 }
 
 .container {
