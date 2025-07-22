@@ -232,7 +232,7 @@ function viewDetail(review) {
 function getEffectiveTimestamp(today = new Date()) {
   const y = today.getFullYear();
   const m = today.getMonth(); // 0-based
-  const start = new Date(y, m, 20); // 當月25號
+  const start = new Date(y, m, 25); // 當月25號
   const end = new Date(y, m + 1, 10); // 下個月10號
 
   if (today >= start && today <= end) {
@@ -245,7 +245,7 @@ function getEffectiveTimestamp(today = new Date()) {
 function openForm() {
   const ts = getEffectiveTimestamp();
   if (!ts) {
-    ElMessage.error("只有當月20號～下個月10號之間可以新增資料");
+    ElMessage.error("只有當月25號～下個月10號之間可以新增資料");
     return;
   }
 

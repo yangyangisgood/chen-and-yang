@@ -3,7 +3,7 @@
     <h1>首頁</h1>
     <div class="button-container">
       <button @click="$router.push('/todo-list')">待辦清單</button>
-      <!-- <button @click="$router.push('/dating-diary')">dating-diary</button> -->
+      <button @click="$router.push('/dating-diary')">約會日記</button>
       <!-- <button @click="$router.push('/discussion-record')">
         discussion-record
       </button> -->
