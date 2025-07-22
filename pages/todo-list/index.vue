@@ -213,8 +213,25 @@ function triggerHeart() {
   });
 }
 
+/* 解決瀏覽器畫面顯示問題 */
+function adjustTodoListHeight() {
+  const todoList = document.getElementById("todo-list");
+  const progressBar = document.getElementById("progress-bar-container");
+  const inputForm = document.getElementById("todo-form");
+  const header = document.querySelector("h1");
+
+  const topSpace = header.offsetHeight + inputForm.offsetHeight + 32;
+  const bottomSpace = progressBar.offsetHeight + 46;
+  const vh = window.innerHeight;
+
+  const maxListHeight = vh - topSpace - bottomSpace;
+  todoList.style.maxHeight = maxListHeight + "px";
+  todoList.style.overflowY = "auto";
+}
+
 onMounted(() => {
   loadTodos();
+  adjustTodoListHeight();
 });
 </script>
 
