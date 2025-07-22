@@ -1,8 +1,25 @@
 <template>
   <div class="container">
-    <h1>
-      <a :href="sheetUrl" target="_blank">每月關係檢查表</a>
-    </h1>
+    <!-- 返回 -->
+    <button class="back-btn" @click="$router.push('/')">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-chevron-compact-left"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"
+        />
+      </svg>
+      返回
+    </button>
+
+    <!-- title -->
+    <h1>每月關係檢查表</h1>
 
     <!-- 新增按鈕 -->
     <button class="add-btn" @click="openForm" :disabled="loading">新增</button>
@@ -212,16 +229,23 @@ function viewDetail(review) {
   dialogVisible.value = true;
 }
 
-function openForm() {
-  const today = new Date();
-  const day = today.getDate();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
-  const start = new Date(currentYear, currentMonth, 20);
-  const end = new Date(currentYear, currentMonth + 1, 10);
+function getEffectiveTimestamp(today = new Date()) {
+  const y = today.getFullYear();
+  const m = today.getMonth(); // 0-based
+  const start = new Date(y, m, 20); // 當月25號
+  const end = new Date(y, m + 1, 10); // 下個月10號
 
-  if (today < start || today > end) {
-    ElMessage.error("只有當月25號～下個月10號之間可以新增資料");
+  if (today >= start && today <= end) {
+    return `${y}-${(m + 1).toString().padStart(2, "0")}`; // 傳當月
+  }
+
+  return null;
+}
+
+function openForm() {
+  const ts = getEffectiveTimestamp();
+  if (!ts) {
+    ElMessage.error("只有當月20號～下個月10號之間可以新增資料");
     return;
   }
 
@@ -245,20 +269,14 @@ function openForm() {
 
 function submitForm() {
   loading.value = true;
-  const now = new Date();
+  const timestamp = getEffectiveTimestamp();
   const payload = {
     ...form.value,
-    timestamp: `${now.getFullYear()}-${now
-      .getMonth()
-      .toString()
-      .padStart(2, "0")}`,
+    timestamp,
     experiment_date: form.value.experiment_date
       ? new Date(form.value.experiment_date).toISOString().split("T")[0]
       : "",
   };
-
-  // 先推到畫面上
-  reviews.value.unshift(payload);
 
   fetch(`${GAS_URL}?action=add`, {
     method: "POST",
@@ -273,6 +291,7 @@ function submitForm() {
       if (res.status === "success") {
         ElMessage.success("新增成功");
         formVisible.value = false;
+        loadReviews();
       } else {
         throw new Error();
       }
@@ -297,10 +316,22 @@ h1 {
   color: #304a68;
   font-size: 1.6em;
 }
-a {
-  text-decoration: none;
-  color: inherit;
+
+.back-btn {
+  border: none;
+  padding: 0.53em 1.1em;
+  position: fixed;
+  top: 2em;
+  left: 0.2em;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  color: #304a68;
+  font-size: 0.9em;
+  cursor: pointer;
+  background-color: transparent;
 }
+
 .add-btn {
   display: block;
   margin: 1em auto;

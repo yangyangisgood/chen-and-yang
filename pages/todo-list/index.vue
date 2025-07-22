@@ -1,5 +1,23 @@
 <template>
   <div :class="['container', { 'pink-mode': percent === 100 }]">
+    <!-- 返回 -->
+    <button class="back-btn" @click="$router.push('/')">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-chevron-compact-left"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"
+        />
+      </svg>
+      返回
+    </button>
+
     <!-- title -->
     <h1>
       <a
@@ -77,22 +95,6 @@
       <img src="/image/f-pink.png" class="deco-items" id="pink-flower" />
     </div>
 
-    <!-- 天數計數器 -->
-    <div id="days-counter">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="calendar-icon"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"
-        />
-      </svg>
-      <span class="calendar-text">
-        <span id="days-count">D+{{ daysCount }}</span>
-      </span>
-    </div>
-
     <!-- loader -->
     <div id="loader" v-show="loading">
       <span class="loader-icon"></span>
@@ -124,7 +126,6 @@ const newTodo = ref("");
 const todos = ref([]);
 const loading = ref(false);
 const heartAnimating = ref(false);
-const daysCount = ref(0);
 
 const doneCount = computed(
   () =>
@@ -212,21 +213,8 @@ function triggerHeart() {
   });
 }
 
-function calcDays() {
-  const start = new Date("2025-07-15");
-  const today = new Date();
-  start.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
-  const diff = today - start;
-  daysCount.value = Math.floor(diff / (1000 * 60 * 60 * 24));
-}
-
-console.log("script loaded");
-
 onMounted(() => {
   loadTodos();
-  calcDays();
-  console.log("onMounted triggered");
 });
 </script>
 
@@ -349,11 +337,24 @@ li span {
   vertical-align: middle;
 }
 
+.back-btn {
+  position: fixed;
+  top: 2em;
+  left: 0.2em;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  color: #69491a;
+  font-size: 0.9em;
+  cursor: pointer;
+  background-color: transparent;
+}
+
 #orange-flower {
   display: block;
   position: fixed;
   top: 3%;
-  left: 5%;
+  right: 5%;
   height: 6%;
   transform: rotate(-5deg);
   animation: orange-flower-anim 3s 3000ms infinite alternate linear;
@@ -363,33 +364,10 @@ li span {
   display: none;
   position: fixed;
   top: 3%;
-  left: 5%;
+  right: 5%;
   height: 6%;
   transform: rotate(-23deg);
   animation: pink-flower-anim 3s 3000ms infinite alternate linear;
-}
-
-#days-counter {
-  position: fixed;
-  top: 4%;
-  right: 6%;
-}
-
-.calendar-icon {
-  height: 2.2em;
-  transform: scaleX(1.5);
-  fill: #f3e6bd;
-}
-
-#days-count {
-  position: absolute;
-  top: 56%;
-  left: 50%;
-  transform: translate(-50%, -52%);
-  font-size: 0.72em;
-  color: #f3e6bd;
-  pointer-events: none;
-  font-family: "SweiHalfMoonCJKtc-bold", Arial, sans-serif;
 }
 
 #progress-bar-container {
@@ -547,14 +525,6 @@ button:disabled,
 
 .container.pink-mode #progress-bar-container {
   background-color: #faecea;
-}
-
-.container.pink-mode .calendar-icon {
-  fill: #faecea;
-}
-
-.container.pink-mode #days-count {
-  color: #faecea;
 }
 
 .container.pink-mode #orange-flower {
