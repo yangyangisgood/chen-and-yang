@@ -3,10 +3,10 @@
     <h1>home-page</h1>
     <div class="button-container">
       <button @click="$router.push('/todo-list')">待辦清單</button>
-      <button @click="$router.push('/dating-diary')">dating-diary</button>
-      <button @click="$router.push('/discussion-record')">
+      <!-- <button @click="$router.push('/dating-diary')">dating-diary</button> -->
+      <!-- <button @click="$router.push('/discussion-record')">
         discussion-record
-      </button>
+      </button> -->
       <button @click="$router.push('/check-list')">關係檢查表</button>
     </div>
   </div>
