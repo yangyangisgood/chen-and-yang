@@ -19,3 +19,8 @@ body {
   background-attachment: fixed;
   background-size: cover;
 }
+
+button {
+  font-family: 'SweiHalfMoonCJKtc-Medium', Arial, sans-serif;
+  cursor: pointer;
+}
