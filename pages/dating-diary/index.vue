@@ -51,6 +51,12 @@
         <p>
           <strong>內容：</strong><span>{{ selected.content }}</span>
         </p>
+        <img
+          v-if="selected.imageUrl"
+          :src="selected.imageUrl"
+          alt="image"
+          style="max-width: 50%; margin: 16px 25%"
+        />
       </div>
     </el-dialog>
 
@@ -83,6 +89,25 @@
             placeholder="請輸入日記內容"
           />
         </el-form-item>
+        <el-form-item label="上傳圖片">
+          <el-upload
+            v-if="!form.imageUrl"
+            class="upload-demo"
+            drag
+            :http-request="uploadImage"
+            :show-file-list="false"
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              <em>點此上傳</em>
+            </div>
+          </el-upload>
+          <img
+            v-if="form.imageUrl"
+            :src="form.imageUrl"
+            style="margin-top: 10px; max-width: 80%"
+          />
+        </el-form-item>
 
         <div style="text-align: right; margin-top: 10px">
           <el-button @click="formVisible = false">取消</el-button>
@@ -106,7 +131,7 @@ import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbzdXRVWPMFpBymxg7xB1b6N6--XYxJQ6KmlogLsboDU0y1Etb6RyvF8V32rw5IzUUsqYg/exec";
+  "https://script.google.com/macros/s/AKfycbyhV4INreTg9NfkTp3U72jtYXp8qIxCDiCbAKpsc-1222p67Foqe6isCxU7PYvTfebi5A/exec";
 
 const timeline = ref([]);
 const dialogVisible = ref(false);
@@ -118,6 +143,7 @@ const form = ref({
   type: "",
   date: "",
   title: "",
+  imageUrl: "",
   content: "",
 });
 
@@ -152,7 +178,7 @@ function viewDetail(item) {
 
 function openForm() {
   formVisible.value = true;
-  form.value = { type: "", date: "", title: "", content: "" };
+  form.value = { type: "", date: "", title: "", content: "", imageUrl: "" };
 }
 
 function submitForm() {
@@ -166,6 +192,8 @@ function submitForm() {
     ...form.value,
     date: form.value.date,
     id: Date.now(),
+    // imageUrl 是 uploadImage 成功後存進 form.value 的
+    imageUrl: form.value.imageUrl || "", // 如果沒上傳就空字串
   };
 
   fetch(GAS_URL, {
@@ -188,6 +216,53 @@ function submitForm() {
     })
     .catch(() => ElMessage.error("新增失敗"))
     .finally(() => (loading.value = false));
+}
+
+// 修正後的 uploadImage 函數
+async function uploadImage(option) {
+  const file = option.file;
+
+  // 將檔案轉換為 base64
+  const base64 = await new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // 移除 data:image/...;base64, 前綴
+      const base64String = e.target.result.split(",")[1];
+      resolve(base64String);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  loading.value = true;
+  try {
+    const payload = {
+      action: "upload",
+      file: base64,
+      filename: file.name,
+      mimeType: file.type,
+    };
+
+    const res = await fetch(GAS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const json = await res.json();
+    if (json.url) {
+      form.value.imageUrl = json.url;
+      ElMessage.success("圖片上傳成功");
+    } else {
+      throw new Error("上傳失敗");
+    }
+  } catch (e) {
+    console.error("上傳錯誤:", e);
+    ElMessage.error("圖片上傳失敗");
+  } finally {
+    loading.value = false;
+  }
 }
 
 onMounted(loadData);
