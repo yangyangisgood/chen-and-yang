@@ -6,6 +6,9 @@
       <button @click="$router.push('/dating-diary')">約會日記</button>
       <button @click="$router.push('/discussion-record')">吵架紀錄冊</button>
       <button @click="$router.push('/check-list')">關係檢查表</button>
+      <button @click="$router.push('/sushi-doesnt-go-round')">
+        不迴轉壽司
+      </button>
     </div>
 
     <!-- 天數計數器 -->
