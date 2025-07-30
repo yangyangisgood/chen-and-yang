@@ -77,11 +77,11 @@
             placeholder="請選擇日期"
           />
         </el-form-item>
-        <el-form-item label="內容">
+        <el-form-item label="項目">
           <el-input
             v-model="form.content"
             type="textarea"
-            placeholder="請輸入"
+            placeholder="請輸入不爽的小事"
           />
         </el-form-item>
         <el-form-item label="壽司口味">
@@ -142,7 +142,7 @@ const sushiOptions = [
 
 function getSushiImage(type) {
   const match = sushiOptions.find((s) => s.label === type);
-  return match ? `/image/${match.file}` : "";
+  return match ? `/chen-and-yang/image/${match.file}` : "";
 }
 
 function loadData() {
@@ -248,6 +248,7 @@ onMounted(loadData);
   margin: 0 auto;
   padding: 1em;
   background-color: #eee;
+  height: 100vh;
 }
 
 .back-btn {
@@ -271,12 +272,13 @@ h1 {
 }
 .add-btn {
   display: block;
-  margin: 1em auto;
+  margin: 1em auto 1.2em;
   background-color: #b69964;
   color: white;
-  padding: 0.5em 1em;
+  padding: 0.5em 1.2em;
   border: none;
   border-radius: 8px;
+  font-size: 1em;
 }
 
 .wood-background {
@@ -286,7 +288,6 @@ h1 {
   background-position: center top;
   border-radius: 12px;
   min-height: 75vh;
-  margin-top: 1em;
   margin-bottom: 2em;
   padding-top: 1em;
 }
@@ -294,6 +295,7 @@ h1 {
 .sushi-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   gap: 0;
 }
 .sushi-item {
@@ -303,7 +305,7 @@ h1 {
 }
 .sushi-img {
   /* width: 7em; */
-  height: 7em;
+  height: 18vh;
   object-fit: contain;
   margin: 0 auto;
   display: block;
