@@ -232,11 +232,21 @@ function viewDetail(review) {
 function getEffectiveTimestamp(today = new Date()) {
   const y = today.getFullYear();
   const m = today.getMonth(); // 0-based
-  const start = new Date(y, m, 25); // 當月25號
-  const end = new Date(y, m + 1, 10); // 下個月10號
+  const start = new Date(y, m, 1); // 當月1號
+  const end = new Date(y, m, 10); // 當月10號
 
   if (today >= start && today <= end) {
-    return `${y}-${(m + 1).toString().padStart(2, "0")}`; // 傳當月
+    // 計算上個月的年份和月份
+    let prevYear = y;
+    let prevMonth = m - 1;
+
+    // 處理跨年情況
+    if (prevMonth < 0) {
+      prevMonth = 11; // 12月
+      prevYear = y - 1;
+    }
+
+    return `${prevYear}-${(prevMonth + 1).toString().padStart(2, "0")}`;
   }
 
   return null;
@@ -245,7 +255,7 @@ function getEffectiveTimestamp(today = new Date()) {
 function openForm() {
   const ts = getEffectiveTimestamp();
   if (!ts) {
-    ElMessage.error("只有當月25號～下個月10號之間可以新增資料");
+    ElMessage.error("只有當月1號～10號之間可以新增上個月資料");
     return;
   }
 

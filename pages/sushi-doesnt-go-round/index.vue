@@ -160,7 +160,7 @@ function viewDetail(item) {
 }
 
 function openForm() {
-  if (dataList.value.length >= 9) {
+  if (dataList.value.length >= 8) {
     ElMessage.error("最多八顆壽司！請先吃掉一些！");
     return;
   }
