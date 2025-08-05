@@ -59,28 +59,31 @@
 
         <h3>💬 Part 2：心事小抽屜</h3>
         <p>
-          <strong>擔心的事：</strong><span>{{ selected.worry }}</span>
+          <strong>擔心的事：</strong
+          ><div class="dialog-item-border">{{ selected.worry }}</div>
         </p>
         <p>
-          <strong>開心時刻：</strong><span>{{ selected.happy_moment }}</span>
+          <strong>開心時刻：</strong
+          ><div class="dialog-item-border">{{ selected.happy_moment }}</div>
         </p>
         <p>
-          <strong>偷偷在意：</strong><span>{{ selected.secret_care }}</span>
+          <strong>偷偷在意：</strong
+          ><div class="dialog-item-border">{{ selected.secret_care }}</div>
         </p>
         <p>
-          <strong>最想說的話：</strong><span>{{ selected.say_to_you }}</span>
+          <strong>最想說的話：</strong
+          ><div class="dialog-item-border">{{ selected.say_to_you }}</div>
         </p>
 
         <h3>🧭 Part 3：小實驗</h3>
         <p>
-          <strong>名稱：</strong><span>{{ selected.experiment_title }}</span>
-        </p>
-        <p>
-          <strong>日期：</strong><span>{{ selected.experiment_date }}</span>
+          <strong>名稱：</strong><div>{{ selected.experiment_title }}</div>
         </p>
         <p>
           <strong>期待感受：</strong
-          ><span>{{ selected.experiment_expect }}</span>
+          ><div class="dialog-item-border">{{
+            selected.experiment_expect
+          }}</div>
         </p>
       </div>
     </el-dialog>
@@ -146,13 +149,6 @@
         <el-form-item label="小實驗名稱">
           <el-input v-model="form.experiment_title" placeholder="請輸入" />
         </el-form-item>
-        <el-form-item label="實驗日期">
-          <el-date-picker
-            v-model="form.experiment_date"
-            type="date"
-            placeholder="請選擇日期"
-          />
-        </el-form-item>
         <el-form-item label="期待感受">
           <el-input
             v-model="form.experiment_expect"
@@ -205,7 +201,6 @@ const form = ref({
   secret_care: "",
   say_to_you: "",
   experiment_title: "",
-  experiment_date: "",
   experiment_expect: "",
 });
 
@@ -222,7 +217,6 @@ function resetForm() {
     secret_care: "",
     say_to_you: "",
     experiment_title: "",
-    experiment_date: "",
     experiment_expect: "",
   };
 }
@@ -288,9 +282,6 @@ function submitForm() {
   const payload = {
     ...form.value,
     timestamp,
-    experiment_date: form.value.experiment_date
-      ? new Date(form.value.experiment_date).toISOString().split("T")[0]
-      : "",
   };
 
   fetch(`${GAS_URL}?action=add`, {
@@ -380,13 +371,19 @@ h1 {
   margin-bottom: 0.5em;
   line-height: 1.6;
 }
-.dialog-content p span {
+.dialog-content p div {
   display: inline-block;
   white-space: pre-wrap;
   word-break: break-word;
   background: #fff;
   padding: 4px 6px;
   border-radius: 4px;
+  margin-top: 2px;
+  margin: 8px;
+}
+
+.dialog-item-border {
+  border: 2px solid #ccc;
 }
 
 #loader {
