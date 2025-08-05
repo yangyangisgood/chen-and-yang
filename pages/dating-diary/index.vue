@@ -127,6 +127,7 @@
         </el-form-item>
 
         <div style="text-align: right; margin-top: 10px">
+          <el-button @click="resetForm">清空</el-button>
           <el-button @click="formVisible = false">取消</el-button>
           <el-button type="primary" native-type="submit" :loading="loading"
             >送出</el-button
@@ -164,6 +165,10 @@ const form = ref({
   content: "",
 });
 
+function resetForm() {
+  form.value = { type: "", date: "", title: "", content: "", imageUrl: "" };
+}
+
 function formatDateToLocal(dateString) {
   const d = new Date(dateString);
   if (isNaN(d)) return dateString;
@@ -173,6 +178,7 @@ function formatDateToLocal(dateString) {
 
 function loadData() {
   loading.value = true;
+  resetForm();
   fetch(GAS_URL)
     .then((res) => res.json())
     .then((data) => {
@@ -195,7 +201,6 @@ function viewDetail(item) {
 
 function openForm() {
   formVisible.value = true;
-  form.value = { type: "", date: "", title: "", content: "", imageUrl: "" };
 }
 
 function submitForm() {

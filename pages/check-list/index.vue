@@ -162,6 +162,7 @@
         </el-form-item>
 
         <div style="text-align: right; margin-top: 10px">
+          <el-button @click="resetForm">清空</el-button>
           <el-button @click="formVisible = false">取消</el-button>
           <el-button type="primary" native-type="submit" :loading="loading"
             >送出</el-button
@@ -208,6 +209,24 @@ const form = ref({
   experiment_expect: "",
 });
 
+function resetForm() {
+  form.value = {
+    user: "",
+    satisfaction: 0,
+    security: 0,
+    communication: 0,
+    happiness: 0,
+    intimacy: 0,
+    worry: "",
+    happy_moment: "",
+    secret_care: "",
+    say_to_you: "",
+    experiment_title: "",
+    experiment_date: "",
+    experiment_expect: "",
+  };
+}
+
 function formatDate(str) {
   const [year, month] = str.split("-");
   return `${year} 年 ${Number(month) + 1} 月`;
@@ -215,6 +234,7 @@ function formatDate(str) {
 
 function loadReviews() {
   loading.value = true;
+  resetForm();
   fetch(`${GAS_URL}?action=list`)
     .then((res) => res.json())
     .then((data) => {
@@ -260,21 +280,6 @@ function openForm() {
   }
 
   formVisible.value = true;
-  Object.assign(form.value, {
-    user: "",
-    satisfaction: 0,
-    security: 0,
-    communication: 0,
-    happiness: 0,
-    intimacy: 0,
-    worry: "",
-    happy_moment: "",
-    secret_care: "",
-    say_to_you: "",
-    experiment_title: "",
-    experiment_date: "",
-    experiment_expect: "",
-  });
 }
 
 function submitForm() {

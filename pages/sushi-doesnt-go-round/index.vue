@@ -94,11 +94,13 @@
             />
           </el-select>
         </el-form-item>
-
-        <el-button type="primary" native-type="submit" :loading="loading"
-          >送出</el-button
-        >
-        <el-button @click="formVisible = false">取消</el-button>
+        <div style="text-align: right">
+          <el-button @click="resetForm">清空</el-button>
+          <el-button @click="formVisible = false">取消</el-button>
+          <el-button type="primary" native-type="submit" :loading="loading"
+            >送出</el-button
+          >
+        </div>
       </el-form>
     </el-dialog>
   </div>
@@ -140,6 +142,15 @@ const sushiOptions = [
   { label: "鮭魚壽司加芥末", file: "salmon-wasabi.png", emoji: "🌶️🍣" },
 ];
 
+function resetForm() {
+  form.value = {
+    user: "",
+    date: "",
+    sushiType: "",
+    content: "",
+  };
+}
+
 function getSushiImage(type) {
   const match = sushiOptions.find((s) => s.label === type);
   return match ? `/chen-and-yang/image/${match.file}` : "";
@@ -147,6 +158,7 @@ function getSushiImage(type) {
 
 function loadData() {
   loading.value = true;
+  resetForm();
   fetch(`${GAS_URL}?action=list`)
     .then((res) => res.json())
     .then((data) => (dataList.value = data.reverse()))
@@ -165,12 +177,6 @@ function openForm() {
     return;
   }
   formVisible.value = true;
-  form.value = {
-    user: "",
-    date: "",
-    sushiType: "",
-    content: "",
-  };
 }
 
 function submitForm() {
@@ -326,7 +332,7 @@ h1 {
   width: 20px;
   height: 20px;
   border: 3px solid #e0e0e0;
-  border-top: 3px solid #257436;
+  border-top: 3px solid #64460f;
   border-radius: 50%;
   animation: spin 0.85s linear infinite;
   vertical-align: middle;
