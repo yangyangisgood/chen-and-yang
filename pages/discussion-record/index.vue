@@ -97,10 +97,7 @@
     </el-dialog>
 
     <!-- loader -->
-    <div id="loader" v-show="loading">
-      <span class="loader-icon"></span>
-      <span style="margin-left: 8px; color: #252c74">載入中...</span>
-    </div>
+    <LoaderBasic :visible="loading" color="#7c3a3a" />
   </div>
 </template>
 
@@ -223,30 +220,5 @@ onMounted(loadList);
   border: 1px solid #a86c6c;
   border-radius: 6px;
   cursor: pointer;
-}
-#loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 1em 2em;
-  z-index: 9999;
-  font-size: 1.03em;
-  text-align: center;
-}
-.loader-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #e0e0e0;
-  border-top: 3px solid #7c3a3a;
-  border-radius: 50%;
-  animation: spin 0.85s linear infinite;
-  vertical-align: middle;
-}
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>
