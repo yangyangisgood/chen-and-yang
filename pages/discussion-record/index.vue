@@ -1,24 +1,6 @@
 <template>
   <div class="container">
-    <!-- 返回按鈕 -->
-    <button class="back-btn" @click="$router.push('/')">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-chevron-compact-left"
-        viewBox="0 0 16 16"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"
-        />
-      </svg>
-      返回
-    </button>
-
-    <h1>吵架記錄</h1>
+    <HeaderBasic title="吵架紀錄" page-color="discussion-record" />
     <button class="add-btn" @click="openForm" :disabled="loading">新增</button>
 
     <ul id="argue-list">
@@ -219,25 +201,7 @@ onMounted(loadList);
   padding: 1em;
   background: linear-gradient(110deg, #f5e0d6 52%, #f3c1ad 52%);
 }
-h1 {
-  text-align: center;
-  color: #7c3a3a;
-  font-size: 1.6em;
-}
-.back-btn {
-  border: none;
-  padding: 0.53em 1.1em;
-  position: fixed;
-  top: 2em;
-  left: 0.2em;
-  display: flex;
-  align-items: center;
-  gap: 0.2em;
-  color: #7c3a3a;
-  font-size: 0.9em;
-  cursor: pointer;
-  background-color: transparent;
-}
+
 .add-btn {
   display: block;
   margin: 1em auto;

@@ -1,32 +1,31 @@
 <template>
   <div :class="['container', { 'pink-mode': percent === 100 }]">
-    <!-- 返回 -->
-    <button class="back-btn" @click="$router.push('/')">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-chevron-compact-left"
-        viewBox="0 0 16 16"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"
-        />
-      </svg>
-      返回
-    </button>
+    <div class="header">
+      <!-- 返回 -->
+      <button class="back-btn" @click="$router.push('/')">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-chevron-compact-left"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"
+          />
+        </svg>
+        返回
+      </button>
 
-    <!-- title -->
-    <h1>
-      <a
-        href="https://docs.google.com/spreadsheets/d/1MMnLWBfr-XKPe99Pm5mKrlj0aI1wpG2LPC8hPKLog2U/edit?usp=sharing"
-        target="_blank"
-      >
-        待辦清單
-      </a>
-    </h1>
+      <!-- title -->
+      <h1>待辦清單</h1>
+
+      <!-- deco -->
+      <img src="/image/f-orange.png" class="deco-items" id="orange-flower" />
+      <img src="/image/f-pink.png" class="deco-items" id="pink-flower" />
+    </div>
 
     <!-- 新增項目 form -->
     <form id="todo-form" autocomplete="off" @submit.prevent="addTodo">
@@ -87,12 +86,6 @@
           }"
         ></div>
       </div>
-    </div>
-
-    <!-- deco -->
-    <div class="deco-container">
-      <img src="/image/f-orange.png" class="deco-items" id="orange-flower" />
-      <img src="/image/f-pink.png" class="deco-items" id="pink-flower" />
     </div>
 
     <!-- loader -->
@@ -247,12 +240,20 @@ onMounted(() => {
   background: linear-gradient(110deg, #ffd954 52%, #e4b660 52%);
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
 h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-  letter-spacing: 0.1em;
-  color: #69491a;
   font-size: 1.6em;
-  margin-top: 0.6em;
+  color: #69491a;
 }
 
 a {
@@ -355,34 +356,27 @@ li span {
 }
 
 .back-btn {
-  position: fixed;
-  top: 2em;
-  left: 0.2em;
+  border: none;
+  padding: 0.53em 0em;
   display: flex;
   align-items: center;
   gap: 0.2em;
-  color: #69491a;
   font-size: 0.9em;
   cursor: pointer;
   background-color: transparent;
+  color: #69491a;
 }
 
 #orange-flower {
   display: block;
-  position: fixed;
-  top: 3%;
-  right: 5%;
-  height: 6%;
+  width: 8%;
   transform: rotate(-5deg);
   animation: orange-flower-anim 3s 3000ms infinite alternate linear;
 }
 
 #pink-flower {
   display: none;
-  position: fixed;
-  top: 3%;
-  right: 5%;
-  height: 6%;
+  width: 8%;
   transform: rotate(-23deg);
   animation: pink-flower-anim 3s 3000ms infinite alternate linear;
 }
