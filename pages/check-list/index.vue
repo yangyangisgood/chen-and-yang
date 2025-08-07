@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <PageBasic color1="#e6f2fc" color2="#cee7f6">
     <HeaderBasic title="每月關係檢查表" page-color="check-list" />
 
     <!-- 新增按鈕 -->
@@ -146,7 +146,7 @@
         </div>
       </el-form>
     </el-dialog>
-  </div>
+  </PageBasic>
 
   <!-- loader -->
   <LoaderBasic :visible="loading" color="#252c74" />
@@ -287,14 +287,6 @@ onMounted(loadReviews);
 </script>
 
 <style scoped>
-.container {
-  height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 1em;
-  background: linear-gradient(110deg, #e6f2fc 52%, #cee7f6 52%);
-}
-
 .add-btn {
   display: block;
   margin: 1em auto;

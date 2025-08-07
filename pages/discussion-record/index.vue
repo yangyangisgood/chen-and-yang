@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <PageBasic color1="#f5e0d6" color2="#f3c1ad">
     <HeaderBasic title="吵架紀錄" page-color="discussion-record" />
     <button class="add-btn" @click="openForm" :disabled="loading">新增</button>
 
@@ -98,7 +98,7 @@
 
     <!-- loader -->
     <LoaderBasic :visible="loading" color="#7c3a3a" />
-  </div>
+  </PageBasic>
 </template>
 
 <script setup>
@@ -191,14 +191,6 @@ onMounted(loadList);
 </script>
 
 <style scoped>
-.container {
-  height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 1em;
-  background: linear-gradient(110deg, #f5e0d6 52%, #f3c1ad 52%);
-}
-
 .add-btn {
   display: block;
   margin: 1em auto;

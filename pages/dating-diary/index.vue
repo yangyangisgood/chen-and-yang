@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <PageBasic color1="#e6fcee" color2="#cef6df">
     <HeaderBasic title="約會日記" page-color="dating-diary" />
 
     <!-- 新增按鈕 -->
@@ -116,7 +116,7 @@
         </div>
       </el-form>
     </el-dialog>
-  </div>
+  </PageBasic>
 
   <!-- loader -->
   <LoaderBasic :visible="loading" color="#257436" />
@@ -269,14 +269,6 @@ onMounted(loadData);
 </script>
 
 <style scoped>
-.container {
-  height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 1em;
-  background: linear-gradient(110deg, #e6fcee 52%, #cef6df 52%);
-}
-
 .add-btn {
   display: block;
   margin: 1em auto 2em;
