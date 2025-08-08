@@ -30,7 +30,8 @@ defineProps<{
     | "todo-list"
     | "dating-diary"
     | "discussion-record"
-    | "sushi-doesnt-go-round";
+    | "sushi-doesnt-go-round"
+    | "values";
 }>();
 </script>
 

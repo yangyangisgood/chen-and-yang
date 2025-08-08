@@ -4,7 +4,7 @@
       <div></div>
       <h1>首頁</h1>
       <!-- 天數計數器 -->
-      <div id="days-counter">
+      <div id="days-counter" @click="$router.push('/values')">
         <span id="days-count">D+{{ daysCount }}</span>
       </div>
     </div>
