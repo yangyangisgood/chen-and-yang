@@ -282,6 +282,10 @@ onMounted(loadData);
 }
 .timeline-box {
   margin-top: 0.5em;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  padding-right: 6px;
+  padding-top: 6px;
 }
 .timeline-item:hover {
   cursor: pointer;

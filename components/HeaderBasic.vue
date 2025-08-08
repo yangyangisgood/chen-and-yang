@@ -96,4 +96,11 @@ h1 {
 #sushi-doesnt-go-round .back-btn {
   color: #64460f;
 }
+
+#values h1 {
+  color: #444;
+}
+#values .back-btn {
+  color: #444;
+}
 </style>

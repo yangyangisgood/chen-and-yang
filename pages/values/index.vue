@@ -60,8 +60,8 @@ import { data } from "./data";
   padding: 0.5rem 0;
   color: #444;
   z-index: 2; /* 保證在卡片上方 */
-  border-top: 2px solid #666;
-  border-bottom: 2px solid #666;
+  border-top: 1.4px solid #666;
+  border-bottom: 1.4px solid #666;
   text-align: center;
 }
 

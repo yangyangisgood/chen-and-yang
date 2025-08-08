@@ -200,7 +200,14 @@ function resetForm() {
 
 function formatDate(str) {
   const [year, month] = str.split("-");
-  return `${year} 年 ${Number(month) + 1} 月`;
+  return `${year} 年 ${month} 月`;
+}
+
+function formatDateToLocal(dateString) {
+  const d = new Date(dateString);
+  if (isNaN(d)) return dateString;
+  const utc8Date = new Date(d.getTime() + 8 * 60 * 60 * 1000);
+  return utc8Date.toISOString().split("T")[0];
 }
 
 function loadReviews() {
@@ -209,7 +216,13 @@ function loadReviews() {
   fetch(`${GAS_URL}?action=list`)
     .then((res) => res.json())
     .then((data) => {
-      reviews.value = data.reverse();
+      reviews.value = data
+        .filter((item) => item.timestamp)
+        .map((item) => ({
+          ...item,
+          timestamp: formatDateToLocal(item.timestamp),
+        }))
+        .reverse();
     })
     .catch(() => ElMessage.error("載入失敗"))
     .finally(() => (loading.value = false));
@@ -300,6 +313,8 @@ onMounted(loadReviews);
 }
 #review-list {
   list-style: none;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
   padding: 0;
 }
 .review-item {

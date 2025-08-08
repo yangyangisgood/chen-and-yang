@@ -204,6 +204,8 @@ onMounted(loadList);
 #argue-list {
   list-style: none;
   padding: 0;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
 }
 .argue-item {
   margin: 0.5em 0;
