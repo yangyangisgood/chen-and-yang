@@ -8,7 +8,12 @@ export default defineNuxtConfig({
   ssr: false,
   app: {
     baseURL: '/chen-and-yang/', // GitHub repo 名稱
-    buildAssetsDir: 'assets/'
+    buildAssetsDir: 'assets/',
+    head: {
+      title: "快樂霜淇淋",
+      // 設置分頁icon
+      link: [{ rel: "icon", type: "image/x-icon", href: "ice-cream.png" }],
+    }
   },
   nitro: {
     preset: 'static',
