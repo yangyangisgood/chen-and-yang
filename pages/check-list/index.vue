@@ -65,6 +65,20 @@
           <strong>期待感受：</strong>
           <div class="dialog-item-border">{{ selected.experiment_expect }}</div>
         </div>
+
+        <h3 v-if="selected.confession_type || selected.confession_content">
+          🦄 Part 4：坦白從寬
+        </h3>
+        <div v-if="selected.confession_type">
+          <strong>我有一些：</strong>
+          <span>{{ selected.confession_type }}</span>
+        </div>
+        <div v-if="selected.confession_content">
+          <strong>內容：</strong>
+          <div class="dialog-item-border">
+            {{ selected.confession_content }}
+          </div>
+        </div>
       </div>
     </el-dialog>
 
@@ -137,6 +151,29 @@
           />
         </el-form-item>
 
+        <h4>🦄 Part 4：坦白從寬</h4>
+        <el-form-item label="我有一些…">
+          <el-radio-group v-model="form.confession_type">
+            <el-radio
+              v-for="item in [
+                '想說的但需要時間準備',
+                '想說的希望你有空時能問我',
+                '想要一起討論的敏感話題',
+              ]"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="內容">
+          <el-input
+            v-model="form.confession_content"
+            type="textarea"
+            placeholder="請輸入"
+          />
+        </el-form-item>
+
         <div style="text-align: right; margin-top: 10px">
           <el-button @click="resetForm">清空</el-button>
           <el-button @click="formVisible = false">取消</el-button>
@@ -179,6 +216,8 @@ const form = ref({
   say_to_you: "",
   experiment_title: "",
   experiment_expect: "",
+  confession_type: "",
+  confession_content: "",
 });
 
 function resetForm() {
@@ -195,6 +234,8 @@ function resetForm() {
     say_to_you: "",
     experiment_title: "",
     experiment_expect: "",
+    confession_type: "",
+    confession_content: "",
   };
 }
 
