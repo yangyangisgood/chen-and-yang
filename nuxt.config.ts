@@ -18,6 +18,15 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'static',
   },
+  devServer: {
+    port: 8000,
+  },
+  vite: {
+    plugins: [],
+    define: {
+      __VUE_OPTIONS_API__: true
+    }
+  },
   spaLoadingTemplate: 'app/loading-template.html',
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
