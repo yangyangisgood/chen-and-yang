@@ -71,6 +71,7 @@ import { data } from "./data";
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   padding: 1rem;
   margin-bottom: 1rem;
+  margin-top: 1em;
 }
 
 .question-title {
@@ -114,5 +115,11 @@ import { data } from "./data";
   .answer-block {
     flex: 1 1 100%;
   }
+}
+
+:deep(mark-strong) {
+  background-color: #f1edc1; /* 螢光筆黃色 */
+  padding: 0 2px; /* 讓背景左右留點空間 */
+  border-radius: 2px; /* 圓角 */
 }
 </style>
