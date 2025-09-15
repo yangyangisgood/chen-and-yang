@@ -45,10 +45,10 @@
     <el-dialog v-model="formVisible" title="捏捏捏捏捏壽司" width="90%">
       <el-form @submit.prevent="submitForm" label-width="80px">
         <el-form-item label="壽司師傅">
-          <el-select v-model="form.user" placeholder="你是誰">
-            <el-option label="洋" value="洋" />
-            <el-option label="陳" value="陳" />
-          </el-select>
+          <el-radio-group v-model="form.user" placeholder="你是誰">
+            <el-radio label="洋" value="洋" />
+            <el-radio label="陳" value="陳" />
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="日期">
           <el-date-picker
