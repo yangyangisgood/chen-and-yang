@@ -21,7 +21,39 @@
         不迴轉壽司
       </button>
     </div>
+    <img src="/image/egg.png" id="egg" @click="dialogEggVisible = true" />
   </div>
+
+  <el-dialog v-model="dialogEggVisible" title="你找到彩蛋了！！" width="90%">
+    <div>
+      <p>
+        我們完成了
+        <mark-strong>{{ listData.check }}次關係檢查表</mark-strong>
+        ，謝謝你這{{ listData.check }}個多月的陪伴。
+      </p>
+      <p>
+        我們
+        <mark-strong>爭吵過 {{ listData.discussion }} 次</mark-strong>
+        並和好。
+      </p>
+      <p>
+        我們約定了
+        <mark-strong>
+          {{ listData.todo.true + listData.todo.false }}個要一起完成的小事
+        </mark-strong>
+        。目前完成了{{ listData.todo.false }}件，還有{{
+          listData.todo.true
+        }}件我們之後一起慢慢達成吧！
+        <mark-strong>我們來日方長！</mark-strong>
+      </p>
+      <p>
+        我們
+        <mark-strong>記錄了{{ listData.dating }}次約會</mark-strong>
+        ，期待還有更多，大概再{{ listData.dating * 100 }}次！
+      </p>
+      <p>謝謝你！有你真好，真的只想這麼說。</p>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -36,8 +68,21 @@ function calcDays() {
   daysCount.value = Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
+const dialogEggVisible = ref(false);
+const listData = ref();
+
+function handleCountAch() {
+  fetch(`${API_PATH}?action=countAch`)
+    .then((res) => res.json())
+    .then((data) => {
+      listData.value = data;
+    })
+    .catch(() => console.log("載入失敗"));
+}
+
 onMounted(() => {
   calcDays();
+  handleCountAch();
 });
 </script>
 
@@ -91,5 +136,25 @@ button {
   pointer-events: none;
   font-family: "SweiHalfMoonCJKtc-bold", Arial, sans-serif;
   margin-right: 0.8em;
+}
+
+#egg {
+  width: 8%;
+  transform: rotate(-10deg);
+  animation: egg-anim 1s 3000ms infinite alternate linear;
+}
+
+:deep(mark-strong) {
+  background-color: #c1eef1; /* 螢光筆黃色 */
+  border-radius: 2px; /* 圓角 */
+}
+
+@keyframes egg-anim {
+  0% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(10deg);
+  }
 }
 </style>
