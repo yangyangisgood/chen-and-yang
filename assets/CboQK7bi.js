@@ -1,1 +1,0 @@
-import{d as e,x as a,y as r,V as n,R as s,_ as t}from"./CXwq6Dzg.js";const c=e({__name:"PageBasic",props:{color1:{},color2:{}},setup(l){return(o,_)=>(r(),a("div",{class:"container",style:s({background:`linear-gradient(110deg, ${o.color1} 52%, ${o.color2} 52%)`})},[n(o.$slots,"default",{},void 0,!0)],4))}}),p=t(c,[["__scopeId","data-v-13d16d0a"]]);export{p as _};
