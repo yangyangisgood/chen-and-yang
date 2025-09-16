@@ -10,7 +10,7 @@
       <div class="sushi-grid">
         <div
           class="sushi-item"
-          v-for="item in dataList"
+          v-for="item in listData"
           :key="item.id"
           @click="viewDetail(item)"
         >
@@ -36,14 +36,14 @@
         <p><strong>🧑 壽司師傅：</strong>{{ selected.user }}</p>
         <p><strong>📓 內容：</strong>{{ selected.content }}</p>
         <div style="margin-top: 1em; text-align: center">
-          <el-button type="danger" @click="deleteItem">吃掉壽司</el-button>
+          <el-button type="danger" @click="handleDelete">吃掉壽司</el-button>
         </div>
       </div>
     </el-dialog>
 
     <!-- 新增 Dialog -->
     <el-dialog v-model="formVisible" title="捏捏捏捏捏壽司" width="90%">
-      <el-form @submit.prevent="submitForm" label-width="80px">
+      <el-form @submit.prevent="handleAdd" label-width="80px">
         <el-form-item label="壽司師傅">
           <el-radio-group v-model="form.user" placeholder="你是誰">
             <el-radio label="洋" value="洋" />
@@ -95,10 +95,9 @@
 import { ref, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 
-const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxCpBro8KBNZ_ObB8RaURjjC8oRmJ0DT08rcCzHiQelAe1Onrztax9fwLzUdb6QjWf8/exec";
+const tableName = "sushi";
 
-const dataList = ref([]);
+const listData = ref([]);
 const dialogVisible = ref(false);
 const formVisible = ref(false);
 const loading = ref(false);
@@ -138,9 +137,9 @@ function getSushiImage(type) {
 function loadData() {
   loading.value = true;
   resetForm();
-  fetch(`${GAS_URL}?action=list`)
+  fetch(`${API_PATH}?table=${tableName}`)
     .then((res) => res.json())
-    .then((data) => (dataList.value = data.reverse()))
+    .then((data) => (listData.value = data.reverse()))
     .catch(() => ElMessage.error("載入失敗"))
     .finally(() => (loading.value = false));
 }
@@ -151,21 +150,21 @@ function viewDetail(item) {
 }
 
 function openForm() {
-  if (dataList.value.length >= 8) {
+  if (listData.value.length >= 8) {
     ElMessage.error("最多八顆壽司！請先吃掉一些！");
     return;
   }
   formVisible.value = true;
 }
 
-function submitForm() {
+function handleAdd() {
   const payload = {
     ...form.value,
     id: Date.now(),
   };
 
   loading.value = true;
-  fetch(GAS_URL, {
+  fetch(`${API_PATH}?table=${tableName}&action=add`, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload),
@@ -173,7 +172,7 @@ function submitForm() {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.success) {
+      if (res.status === "success") {
         ElMessage.success("新增成功！");
         formVisible.value = false;
         loadData();
@@ -185,7 +184,7 @@ function submitForm() {
     .finally(() => (loading.value = false));
 }
 
-function deleteItem() {
+function handleDelete() {
   if (!selected.value) return;
 
   ElMessageBox.confirm("請先與伴侶討論，確定要吃掉壽司嗎？", "！！！！！", {
@@ -195,20 +194,19 @@ function deleteItem() {
     .then(() => {
       loading.value = true;
 
-      fetch(GAS_URL, {
+      fetch(`${API_PATH}?table=${tableName}&action=delete`, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
         },
         body: JSON.stringify({
-          action: "delete",
           id: selected.value.id,
         }),
         redirect: "follow",
       })
         .then((res) => res.json())
         .then((res) => {
-          if (res.success) {
+          if (res.status === "success") {
             ElMessage.success("壽司已成功吃掉（消化中）🍣💨");
             dialogVisible.value = false;
             loadData();

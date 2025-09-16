@@ -28,7 +28,7 @@
     </div>
 
     <!-- 新增項目 form -->
-    <form id="todo-form" autocomplete="off" @submit.prevent="addTodo">
+    <form id="todo-form" autocomplete="off" @submit.prevent="handleAdd">
       <input
         type="text"
         id="new-todo"
@@ -42,15 +42,15 @@
     <!-- 待辦事項 todo list -->
     <ul id="todo-list">
       <li
-        v-for="(todo, idx) in todos"
+        v-for="(todo, idx) in listData"
         :key="todo.id"
         :class="{ checked: isChecked(todo) }"
-        @click="toggleTodo(idx)"
+        @click="handleCheck(idx)"
       >
         <span>{{ todo.content }}</span>
         <button
           class="del-btn"
-          @click.stop="deleteTodo(todo.id)"
+          @click.stop="handleDelete(todo.id)"
           :disabled="loading"
         >
           <svg
@@ -75,7 +75,7 @@
     <!-- 進度條 progress bar -->
     <div id="progress-bar-container">
       <div id="progress-label">
-        已完成 {{ doneCount }} / {{ todos.length }}（{{ percent }}%）
+        已完成 {{ doneCount }} / {{ listData.length }}（{{ percent }}%）
       </div>
       <div id="progress-bar">
         <div
@@ -112,63 +112,84 @@ import { ref, onMounted, computed } from "vue";
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbz_ls8nqd7ArsdeHJS2BotDasBAr4sP4O08LivCtdFswJPulsuswrnnQ7SrXW7hwxmi/exec";
 
+const tableName = "todo";
+
 const newTodo = ref("");
-const todos = ref([]);
+const listData = ref([]);
 const loading = ref(false);
 const heartAnimating = ref(false);
 
 const doneCount = computed(
   () =>
-    todos.value.filter((t) => t.checked === true || t.checked === "true").length
+    listData.value.filter((t) => t.checked === true || t.checked === "true")
+      .length
 );
 const percent = computed(() =>
-  todos.value.length === 0
+  listData.value.length === 0
     ? 0
-    : Math.round((doneCount.value / todos.value.length) * 100)
+    : Math.round((doneCount.value / listData.value.length) * 100)
 );
 
 function isChecked(todo) {
   return todo.checked === true || todo.checked === "true";
 }
 
-function loadTodos() {
+function loadData() {
   loading.value = true;
-  fetch(`${GAS_URL}?action=list`)
+  fetch(`${API_PATH}?table=${tableName}`)
     .then((res) => res.json())
     .then((data) => {
-      todos.value = data;
+      listData.value = data;
     })
     .catch(() => alert("載入失敗"))
     .finally(() => (loading.value = false));
 }
 
-function addTodo() {
+function handleAdd() {
   if (!newTodo.value) return;
-  const tempId = "temp-" + Date.now();
-  const todo = { id: tempId, content: newTodo.value, checked: false };
-  todos.value.push(todo);
+  const payload = { id: Date.now(), content: newTodo.value, checked: false };
+
+  // 新增時UI先顯示再call api
+  listData.value.push(payload);
   newTodo.value = "";
 
-  fetch(`${GAS_URL}?action=add&content=${encodeURIComponent(todo.content)}`)
+  fetch(`${API_PATH}?table=${tableName}&action=add`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify(payload),
+    redirect: "follow",
+  })
     .then((res) => res.json())
-    .then((data) => {
-      const idx = todos.value.findIndex((t) => t.id === tempId);
-      if (idx !== -1 && data.id) todos.value[idx].id = data.id;
+    .then((res) => {
+      if (res.status === "success") {
+        console.log("新增成功");
+      } else throw new Error();
     })
     .catch(() => {
-      todos.value = todos.value.filter((t) => t.id !== tempId);
-      alert("新增失敗");
+      ElMessage.error("新增失敗");
+      loadData();
     });
 }
 
-function toggleTodo(idx) {
-  const todo = todos.value[idx];
+function handleCheck(idx) {
+  const todo = listData.value[idx];
   const old = todo.checked;
   todo.checked = !old;
 
   if (percent.value === 100) triggerHeart();
 
-  fetch(`${GAS_URL}?action=update&id=${todo.id}&checked=${todo.checked}`)
+  let payload = { id: todo.id, checked: todo.checked };
+
+  fetch(`${API_PATH}?table=${tableName}&action=update`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify(payload),
+    redirect: "follow",
+  })
     .then((res) => res.json())
     .then((res) => {
       if (res.status !== "success") throw new Error();
@@ -179,19 +200,26 @@ function toggleTodo(idx) {
     });
 }
 
-function deleteTodo(id) {
+function handleDelete(id) {
   if (!confirm("確定刪除？")) return;
-  const idx = todos.value.findIndex((t) => t.id === id);
-  const del = todos.value[idx];
-  todos.value.splice(idx, 1);
+  const idx = listData.value.findIndex((t) => t.id === id);
+  const del = listData.value[idx];
+  listData.value.splice(idx, 1);
 
-  fetch(`${GAS_URL}?action=delete&id=${id}`)
+  fetch(`${API_PATH}?table=${tableName}&action=delete`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify({ id: id }),
+    redirect: "follow",
+  })
     .then((res) => res.json())
-    .then((ret) => {
-      if (ret.status !== "success") throw new Error();
+    .then((res) => {
+      if (res.status !== "success") throw new Error();
     })
     .catch(() => {
-      todos.value.splice(idx, 0, del);
+      listData.value.splice(idx, 0, del);
       alert("刪除失敗");
     });
 }
@@ -220,7 +248,7 @@ function adjustTodoListHeight() {
 }
 
 onMounted(() => {
-  loadTodos();
+  loadData();
   adjustTodoListHeight();
 });
 </script>

@@ -5,7 +5,7 @@
 
     <ul id="argue-list">
       <li
-        v-for="item in list"
+        v-for="item in listData"
         :key="item.timestamp"
         class="argue-item"
         @click="viewDetail(item)"
@@ -105,9 +105,9 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 
-const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxn7DMZLJTLAVeKMpCC41fIsU8r3BxUJCM_8JiGbvG1lqsn_3BRyFmL1sTCNcE5lwGK/exec";
-const list = ref([]);
+const tableName = "discussion";
+
+const listData = ref([]);
 const dialogVisible = ref(false);
 const formVisible = ref(false);
 const selected = ref(null);
@@ -142,13 +142,13 @@ function formatDateToLocal(dateString) {
   return utc8Date.toISOString().split("T")[0];
 }
 
-function loadList() {
+function loadData() {
   loading.value = true;
   resetForm();
-  fetch(`${GAS_URL}?action=list`)
+  fetch(`${API_PATH}?table=${tableName}`)
     .then((res) => res.json())
     .then((data) => {
-      list.value = data.reverse().map((item) => ({
+      listData.value = data.reverse().map((item) => ({
         ...item,
         date: formatDateToLocal(item.date),
       }));
@@ -164,7 +164,7 @@ function openForm() {
 function submitForm() {
   loading.value = true;
   const payload = { ...form.value, timestamp: Date.now() };
-  fetch(`${GAS_URL}?action=add`, {
+  fetch(`${API_PATH}?action=add&table=${tableName}`, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload),
@@ -175,7 +175,7 @@ function submitForm() {
       if (res.status === "success") {
         ElMessage.success("新增成功");
         formVisible.value = false;
-        loadList();
+        loadData();
       } else throw new Error();
     })
     .catch(() => ElMessage.error("新增失敗"))
@@ -187,7 +187,7 @@ function viewDetail(item) {
   dialogVisible.value = true;
 }
 
-onMounted(loadList);
+onMounted(loadData);
 </script>
 
 <style scoped>

@@ -3,13 +3,14 @@
     <HeaderBasic title="約會日記" page-color="dating-diary" />
 
     <!-- 新增按鈕 -->
-    <button class="add-btn" @click="openForm" :disabled="loading">新增</button>
+    <button class="add-btn" @click="formVisible = true" :disabled="loading">
+      新增
+    </button>
 
     <!-- timeline 列表 -->
     <el-timeline class="timeline-box">
       <el-timeline-item
-        v-for="item in timeline"
-        :key="item.id"
+        v-for="item in listData"
         :timestamp="item.date"
         :color="item.type === '紀念日' ? '#86b1a3' : '#ccc'"
         @click="viewDetail(item)"
@@ -43,7 +44,7 @@
 
     <!-- 新增 Dialog -->
     <el-dialog v-model="formVisible" title="新增紀錄" width="90%">
-      <el-form @submit.prevent="submitForm" label-width="80px">
+      <el-form @submit.prevent="handleAdd" label-width="80px">
         <el-form-item label="種類">
           <el-radio-group v-model="form.type">
             <el-radio value="紀念日">紀念日</el-radio>
@@ -75,7 +76,7 @@
             v-if="!form.imageUrl"
             class="upload-demo"
             drag
-            :http-request="uploadImage"
+            :http-request="handleUploadImg"
             :show-file-list="false"
             style="width: 16em"
           >
@@ -126,10 +127,9 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 
-const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbyhV4INreTg9NfkTp3U72jtYXp8qIxCDiCbAKpsc-1222p67Foqe6isCxU7PYvTfebi5A/exec";
+const tableName = "dating";
 
-const timeline = ref([]);
+const listData = ref([]);
 const dialogVisible = ref(false);
 const formVisible = ref(false);
 const selected = ref(null);
@@ -157,10 +157,10 @@ function formatDateToLocal(dateString) {
 function loadData() {
   loading.value = true;
   resetForm();
-  fetch(GAS_URL)
+  fetch(`${API_PATH}?table=${tableName}`)
     .then((res) => res.json())
     .then((data) => {
-      timeline.value = data
+      listData.value = data
         .filter((item) => item.date)
         .map((item) => ({
           ...item,
@@ -177,11 +177,7 @@ function viewDetail(item) {
   dialogVisible.value = true;
 }
 
-function openForm() {
-  formVisible.value = true;
-}
-
-function submitForm() {
+function handleAdd() {
   if (!form.value.type || !form.value.date || !form.value.content) {
     ElMessage.warning("請填寫所有欄位");
     return;
@@ -190,13 +186,11 @@ function submitForm() {
   loading.value = true;
   const payload = {
     ...form.value,
-    date: form.value.date,
-    id: Date.now(),
     // imageUrl 是 uploadImage 成功後存進 form.value 的
     imageUrl: form.value.imageUrl || "", // 如果沒上傳就空字串
   };
 
-  fetch(GAS_URL, {
+  fetch(`${API_PATH}?action=add&table=${tableName}`, {
     method: "POST",
     headers: {
       "Content-Type": "text/plain;charset=utf-8",
@@ -206,7 +200,7 @@ function submitForm() {
   })
     .then((res) => res.json())
     .then((res) => {
-      if (res.success) {
+      if (res.status === "success") {
         ElMessage.success("新增成功");
         formVisible.value = false;
         loadData();
@@ -218,8 +212,10 @@ function submitForm() {
     .finally(() => (loading.value = false));
 }
 
-// 修正後的 uploadImage 函數
-async function uploadImage(option) {
+// 上傳圖片
+// 單純POST圖片，會回應Img_Url
+// 把url放進form裡再跑一次新增handleAdd
+async function handleUploadImg(option) {
   const file = option.file;
 
   // 將檔案轉換為 base64
@@ -236,13 +232,12 @@ async function uploadImage(option) {
   loading.value = true;
   try {
     const payload = {
-      action: "upload",
       file: base64,
       filename: file.name,
       mimeType: file.type,
     };
 
-    const res = await fetch(GAS_URL, {
+    const res = await fetch(`${API_PATH}?action=upload`, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain;charset=utf-8",

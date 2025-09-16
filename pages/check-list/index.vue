@@ -8,7 +8,7 @@
     <!-- 清單列表 -->
     <ul id="review-list">
       <li
-        v-for="review in reviews"
+        v-for="review in listData"
         :key="review.timestamp + review.user"
         :class="['review-item', review.user === '洋' ? 'yang' : 'chen']"
         @click="viewDetail(review)"
@@ -85,7 +85,7 @@
     <!-- 新增 Dialog -->
     <el-dialog v-model="formVisible" title="新增滿意度檢查表" width="90%">
       <el-form
-        @submit.prevent="submitForm"
+        @submit.prevent="handleAdd"
         label-position="right"
         label-width="90px"
       >
@@ -193,12 +193,9 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 
-const sheetUrl =
-  "https://docs.google.com/spreadsheets/d/1duIugwMM6mYs_kPwtbMVgknKi0AzxFlwYeflzLSOHto/edit?usp=sharing";
-const GAS_URL =
-  "https://script.google.com/macros/s/AKfycby8G9-i8kk1KhSgLwSwtiBbR9rRg_3kS8xan2H-B3rFsLrU8NcmWzRBKivHi6D_fnSChw/exec";
+const tableName = "check";
 
-const reviews = ref([]);
+const listData = ref([]);
 const dialogVisible = ref(false);
 const formVisible = ref(false);
 const selected = ref(null);
@@ -251,13 +248,13 @@ function formatDateToLocal(dateString) {
   return utc8Date.toISOString().split("T")[0];
 }
 
-function loadReviews() {
+function loadData() {
   loading.value = true;
   resetForm();
-  fetch(`${GAS_URL}?action=list`)
+  fetch(`${API_PATH}?table=${tableName}`)
     .then((res) => res.json())
     .then((data) => {
-      reviews.value = data
+      listData.value = data
         .filter((item) => item.timestamp)
         .map((item) => ({
           ...item,
@@ -307,7 +304,7 @@ function openForm() {
   formVisible.value = true;
 }
 
-function submitForm() {
+function handleAdd() {
   loading.value = true;
   const timestamp = getEffectiveTimestamp();
   const payload = {
@@ -315,7 +312,7 @@ function submitForm() {
     timestamp,
   };
 
-  fetch(`${GAS_URL}?action=add`, {
+  fetch(`${API_PATH}?action=add&table=${tableName}`, {
     method: "POST",
     headers: {
       "Content-Type": "text/plain;charset=utf-8",
@@ -328,16 +325,14 @@ function submitForm() {
       if (res.status === "success") {
         ElMessage.success("新增成功");
         formVisible.value = false;
-        loadReviews();
-      } else {
-        throw new Error();
-      }
+        loadData();
+      } else throw new Error();
     })
     .catch(() => ElMessage.error("新增失敗"))
     .finally(() => (loading.value = false));
 }
 
-onMounted(loadReviews);
+onMounted(loadData);
 </script>
 
 <style scoped>
