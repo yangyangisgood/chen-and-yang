@@ -21,10 +21,20 @@
         不迴轉壽司
       </button>
     </div>
-    <img src="/image/egg.png" id="egg" @click="dialogEggVisible = true" />
+    <img
+      v-if="listData"
+      src="/image/egg.png"
+      id="egg"
+      @click="dialogEggVisible = true"
+    />
   </div>
 
-  <el-dialog v-model="dialogEggVisible" title="你找到彩蛋了" width="90%" center>
+  <el-dialog
+    v-model="dialogEggVisible"
+    :title="`ㄏㄡˊ！你過了${eggDate}天才找到彩蛋`"
+    width="90%"
+    center
+  >
     <div>
       <p>謝謝你，</p>
       <p>
@@ -32,7 +42,7 @@
         <mark-strong>{{ listData.check }}次關係檢查表</mark-strong>
         ，謝謝你這{{ listData.check }}個多月的陪伴。
       </p>
-      <p>我們爭吵過{{ listData.discussion }}次並和好。</p>
+      <!-- <p>我們爭吵過{{ listData.discussion }}次並和好。</p> -->
       <p>
         我們約定了
         <mark-strong>
@@ -48,7 +58,7 @@
         <mark-strong>{{ listData.dating }}次約會</mark-strong>
         ，期待還有更多，大概再{{ listData.dating * 100 }}次！
       </p>
-      <p>謝謝你！有你真好，真的只想這麼說。</p>
+      <p>謝謝你，有你真好，真的只想這麼說。</p>
     </div>
   </el-dialog>
 </template>
@@ -56,13 +66,15 @@
 <script setup>
 const daysCount = ref(0);
 
-function calcDays() {
-  const start = new Date("2025-07-14");
+const eggDate = ref(0);
+
+function calcDays(begin, days) {
+  const start = new Date(days);
   const today = new Date();
   start.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
   const diff = today - start;
-  daysCount.value = Math.floor(diff / (1000 * 60 * 60 * 24));
+  begin.value = Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
 const dialogEggVisible = ref(false);
@@ -78,8 +90,9 @@ function handleCountAch() {
 }
 
 onMounted(() => {
-  calcDays();
   handleCountAch();
+  calcDays(daysCount, "2025-07-14");
+  calcDays(eggDate, "2025-09-15");
 });
 </script>
 
@@ -136,13 +149,14 @@ button {
 }
 
 #egg {
-  width: 8%;
+  width: 32px;
+  height: 32px;
   transform: rotate(-10deg);
   animation: egg-anim 1s 3000ms infinite alternate linear;
 }
 
 :deep(mark-strong) {
-  background-color: #cfeff1; /* 螢光筆黃色 */
+  background-color: #cfeff1; /* 螢光筆 */
   border-radius: 2px; /* 圓角 */
 }
 
