@@ -21,44 +21,43 @@
         不迴轉壽司
       </button>
     </div>
-    <img
-      v-if="listData"
-      src="/image/egg.png"
-      id="egg"
-      @click="dialogEggVisible = true"
-    />
+    <img src="/image/egg.png" id="egg" @click="dialogEggVisible = true" />
   </div>
 
   <el-dialog
+    v-if="listData"
     v-model="dialogEggVisible"
-    :title="`ㄏㄡˊ！你過了${eggDate}天才找到彩蛋`"
+    title="你找到蛋了！"
     width="90%"
     center
+    style="max-width: 360px; background-color: #eee"
   >
     <div>
       <p>謝謝你，</p>
       <p>
         我們完成了
-        <mark-strong>{{ listData.check }}次關係檢查表</mark-strong>
+        <blue-mark-strong>{{ listData.check }}次關係檢查表</blue-mark-strong>
         ，謝謝你這{{ listData.check }}個多月的陪伴。
       </p>
       <!-- <p>我們爭吵過{{ listData.discussion }}次並和好。</p> -->
       <p>
         我們約定了
-        <mark-strong>
+        <blue-mark-strong>
           {{ listData.todo.true + listData.todo.false }}個要一起完成
-        </mark-strong>
+        </blue-mark-strong>
         的小事。目前完成了{{ listData.todo.false }}件，還有{{
           listData.todo.true
         }}件我們之後一起慢慢達成吧！
-        <mark-strong>我們來日方長！</mark-strong>
+        <pink-mark-strong>我們來日方長！</pink-mark-strong>
       </p>
       <p>
         我們記錄了
-        <mark-strong>{{ listData.dating }}次約會</mark-strong>
+        <blue-mark-strong>{{ listData.dating }}次約會</blue-mark-strong>
         ，期待還有更多，大概再{{ listData.dating * 100 }}次！
       </p>
-      <p>謝謝你，有你真好，真的只想這麼說。</p>
+      <p>
+        謝謝你，<pink-mark-strong>有你真好，真的只想這麼說。</pink-mark-strong>
+      </p>
     </div>
   </el-dialog>
 </template>
@@ -66,15 +65,13 @@
 <script setup>
 const daysCount = ref(0);
 
-const eggDate = ref(0);
-
-function calcDays(begin, days) {
-  const start = new Date(days);
+function calcDays() {
+  const start = new Date("2025-07-14");
   const today = new Date();
   start.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
   const diff = today - start;
-  begin.value = Math.floor(diff / (1000 * 60 * 60 * 24));
+  daysCount.value = Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
 const dialogEggVisible = ref(false);
@@ -91,8 +88,7 @@ function handleCountAch() {
 
 onMounted(() => {
   handleCountAch();
-  calcDays(daysCount, "2025-07-14");
-  calcDays(eggDate, "2025-09-15");
+  calcDays();
 });
 </script>
 
@@ -129,6 +125,7 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-height: calc(100vh - 8em);
 }
 
 button {
@@ -151,16 +148,23 @@ button {
 #egg {
   width: 32px;
   height: 32px;
+  cursor: pointer;
   transform: rotate(-10deg);
   animation: egg-anim 1s 3000ms infinite alternate linear;
 }
 
-:deep(mark-strong) {
+:deep(blue-mark-strong) {
   background-color: #cfeff1; /* 螢光筆 */
   border-radius: 2px; /* 圓角 */
 }
 
+:deep(pink-mark-strong) {
+  background-color: #ffdede; /* 螢光筆 */
+  border-radius: 2px; /* 圓角 */
+}
+
 p {
+  font-size: 1.2em;
   color: #666;
 }
 
