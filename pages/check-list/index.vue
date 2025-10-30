@@ -56,18 +56,33 @@
           <div class="dialog-item-border">{{ selected.say_to_you }}</div>
         </div>
 
-        <h3>🧭 Part 3：小實驗</h3>
-        <div>
+        <h3 v-if="selected.experiment_title || selected.experiment_expect">
+          🧭 Part 3：小實驗
+        </h3>
+        <div v-if="selected.experiment_title">
           <strong>名稱：</strong>
           <span>{{ selected.experiment_title }}</span>
         </div>
-        <div>
+        <div v-if="selected.experiment_expect">
           <strong>期待感受：</strong>
           <div class="dialog-item-border">{{ selected.experiment_expect }}</div>
         </div>
 
-        <h3 v-if="selected.confession_type || selected.confession_content">
+        <h3
+          v-if="
+            (selected.experiment_title || selected.experiment_expect) &&
+            (selected.confession_type || selected.confession_content)
+          "
+        >
           🦄 Part 4：坦白從寬
+        </h3>
+        <h3
+          v-if="
+            !(selected.experiment_title || selected.experiment_expect) &&
+            (selected.confession_type || selected.confession_content)
+          "
+        >
+          🦄 Part 3：坦白從寬
         </h3>
         <div v-if="selected.confession_type">
           <strong>我有一些：</strong>
@@ -139,7 +154,7 @@
           />
         </el-form-item>
 
-        <h4>🧭 Part 3 小實驗</h4>
+        <!-- <h4>🧭 Part 3 小實驗</h4>
         <el-form-item label="小實驗名稱">
           <el-input v-model="form.experiment_title" placeholder="請輸入" />
         </el-form-item>
@@ -149,9 +164,9 @@
             type="textarea"
             placeholder="請輸入"
           />
-        </el-form-item>
+        </el-form-item> -->
 
-        <h4>🦄 Part 4：坦白從寬</h4>
+        <h4>🦄 Part 3：坦白從寬</h4>
         <el-form-item label="我有一些…">
           <el-radio-group v-model="form.confession_type">
             <el-radio
@@ -211,8 +226,8 @@ const form = ref({
   happy_moment: "",
   secret_care: "",
   say_to_you: "",
-  experiment_title: "",
-  experiment_expect: "",
+  // experiment_title: "",
+  // experiment_expect: "",
   confession_type: "",
   confession_content: "",
 });
@@ -229,8 +244,8 @@ function resetForm() {
     happy_moment: "",
     secret_care: "",
     say_to_you: "",
-    experiment_title: "",
-    experiment_expect: "",
+    // experiment_title: "",
+    // experiment_expect: "",
     confession_type: "",
     confession_content: "",
   };
