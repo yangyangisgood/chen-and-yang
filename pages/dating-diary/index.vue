@@ -31,7 +31,8 @@
           <strong>日期：</strong><span>{{ selected.date }}</span>
         </p>
         <p>
-          <strong>內容：</strong><span>{{ selected.content }}</span>
+          <strong>內容：</strong>
+          <span style="text-align: justify">{{ selected.content }}</span>
         </p>
         <img
           v-if="selected.imageUrl"

@@ -387,6 +387,7 @@ onMounted(loadData);
   line-height: 1.6;
 }
 .dialog-item-border {
+  text-align: justify;
   display: inline-block;
   white-space: pre-wrap;
   word-break: break-word;

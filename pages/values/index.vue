@@ -99,6 +99,7 @@ import { data } from "./data";
 }
 
 .answer-block p {
+  text-align: justify;
   white-space: pre-line;
   line-height: 1.5;
 }

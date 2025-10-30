@@ -164,6 +164,7 @@ button {
 }
 
 p {
+  text-align: justify;
   font-size: 1.2em;
   color: #666;
 }
