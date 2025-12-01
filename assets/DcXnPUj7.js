@@ -1,1 +1,0 @@
-import{d as o,x as r,y as a,W as n,T as s,_ as t}from"./DZY4mBPm.js";const c=o({__name:"PageBasic",props:{color1:{},color2:{}},setup(l){return(e,_)=>(a(),r("div",{class:"container",style:s({background:`linear-gradient(110deg, ${e.color1} 52%, ${e.color2} 52%)`})},[n(e.$slots,"default",{},void 0,!0)],4))}}),d=t(c,[["__scopeId","data-v-7ce5bf08"]]);export{d as _};
