@@ -113,19 +113,54 @@
 
         <h4>🧡 Part 1 關係溫度計</h4>
         <el-form-item label="滿足感">
-          <el-rate v-model="form.satisfaction" />
+          <el-rate
+            v-model="form.satisfaction"
+            :colors="rateColor"
+            :icons="rateIcon"
+            :void-icon="iconCircle"
+            :low-threshold="2.5"
+            :high-threshold="4.5"
+          />
         </el-form-item>
         <el-form-item label="安全感">
-          <el-rate v-model="form.security" />
+          <el-rate
+            v-model="form.security"
+            :colors="rateColor"
+            :icons="rateIcon"
+            :void-icon="iconCircle"
+            :low-threshold="2.5"
+            :high-threshold="4.5"
+          />
         </el-form-item>
         <el-form-item label="溝通">
-          <el-rate v-model="form.communication" />
+          <el-rate
+            v-model="form.communication"
+            :colors="rateColor"
+            :icons="rateIcon"
+            :void-icon="iconCircle"
+            :low-threshold="2.5"
+            :high-threshold="4.5"
+          />
         </el-form-item>
         <el-form-item label="快樂感">
-          <el-rate v-model="form.happiness" />
+          <el-rate
+            v-model="form.happiness"
+            :colors="rateColor"
+            :icons="rateIcon"
+            :void-icon="iconCircle"
+            :low-threshold="2.5"
+            :high-threshold="4.5"
+          />
         </el-form-item>
         <el-form-item label="親密感">
-          <el-rate v-model="form.intimacy" />
+          <el-rate
+            v-model="form.intimacy"
+            :colors="rateColor"
+            :icons="rateIcon"
+            :void-icon="iconCircle"
+            :low-threshold="2.5"
+            :high-threshold="4.5"
+          />
         </el-form-item>
 
         <h4>💬 Part 2 心事小抽屜</h4>
@@ -207,6 +242,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
+import iconEmojiSad from "~/public/icons/IconEmojiSad.vue";
+import iconEmojiSmile from "~/public/icons/IconEmojiSmile.vue";
+import iconEmojiLoveEye from "~/public/icons/IconEmojiLoveEyes.vue";
+import iconCircle from "~/public/icons/IconCircle.vue";
 
 const tableName = "check";
 
@@ -250,6 +289,9 @@ function resetForm() {
     confession_content: "",
   };
 }
+
+const rateColor = ref(["#cccccc", "#df8585", "#df4d4d"]);
+const rateIcon = ref([iconEmojiSad, iconEmojiSmile, iconEmojiLoveEye]);
 
 function formatDate(str) {
   const [year, month] = str.split("-");
