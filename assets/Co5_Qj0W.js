@@ -1,0 +1,1 @@
+import{_ as t}from"./DPyVVH0o.js";import{_ as c}from"./Cqad35Dc.js";import{_,K as n,C as a,y as r,B as s}from"./DXbd3OtC.js";const f={};function i(m,p){const o=t,e=c;return r(),n(e,{color1:"#e6f2fc",color2:"#cee7f6"},{default:a(()=>[s(o,{title:"test","page-color":"dating-diary"})]),_:1})}const u=_(f,[["render",i]]);export{u as default};
